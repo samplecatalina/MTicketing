@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expiration-dpl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expiration
+  template:
+    metadata:
+      labels:
+        app: expiration
+    spec:
+      containers:
+        - name: expiration
+          image: samplecatalina/expiration
+          env:
+            # Kafka client ID using pod metadata name
+            - name: KAFKA_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            # Kafka brokers, change it to the appropriate Kafka brokers in your infrastructure
+            - name: KAFKA_BROKERS
+              value: 'kafka-broker1:9092,kafka-broker2:9092'
+            # Redis host environment variable for expiration service
+            - name: REDIS_HOST
+              value: expiration-redis-srv

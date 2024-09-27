@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-dpl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments
+  template:
+    metadata:
+      labels:
+        app: payments
+    spec:
+      containers:
+        - name: payments
+          image: samplecatalina/payments
+          env:
+            # Kafka client ID using pod metadata name
+            - name: KAFKA_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            # Kafka brokers, replace with actual broker addresses
+            - name: KAFKA_BROKERS
+              value: 'kafka-srv:9092'
+            # MongoDB connection string for the payments service
+            - name: MONGO_URI
+              value: 'mongodb://payments-mongo-srv:27017/payments'
+            # JWT secret key from Kubernetes secret
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            # Stripe secret key from Kubernetes secret
+            - name: STRIPE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: STRIPE_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-srv
+spec:
+  selector:
+    app: payments
+  ports:
+    - name: payments
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
