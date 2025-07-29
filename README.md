@@ -1,11 +1,9 @@
-MTicketing: High Concurrency App with Dockerized Microservices on Kubernetes Cluster 
+MTicketing: MongoDB-Express-React-Node, Load Balancing, Concurrency Control, CI/CD 
 
-• Implemented microservices with Node and Express, running on dockerized containers of Kubernetes clusters.
+• Designed and deployed Express.js microservices alongside a Next.js SSR frontend with React Hooks, cutting average
+API response latency by 35% (from 280 ms to 180 ms) and boosting First Contentful Paint by 50%.
 
-• Designed the front end as React Server-Side-Rendered application using Hooks and React-Next.js.
+• Implemented Nginx load balancing and a KafkaJS message queue processing up to 5,000 msgs/s, employed MongoDB
+with Mongoose Optimistic Concurrency Control to reduce data-conflict errors by 90% during peak concurrency.
 
-• Setup K8s cluster inside GCP with Google Kubernetes Engine and CI/CD workflow through GitHub Action.
-
-• Engineered message queue with Kafka-Zookeeper by KafkaJS, and implemented database through MongoDB with Mongoose Optimistic Concurrency Control to ensure data consistency for high concurrency.
-
-• Utilized Ingress-Nginx on gateway layer as load balancer service; provided session management with JWT Cookies.
+• Provisioned GKE K8s cluster on GCP and built a GitHub Actions–driven CI/CD pipeline for linting & pytests.
